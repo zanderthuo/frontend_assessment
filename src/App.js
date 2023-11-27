@@ -20,7 +20,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/edit-application" component={EditPage} />
-          <Route path="/all-application" component={AllApplicationsPage} />
+          <PrivateRoute path="/all-application" component={AllApplicationsPage} />
           <Route component={ErrorPage} />
         </Switch>
       </div>

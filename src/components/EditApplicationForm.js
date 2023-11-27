@@ -48,7 +48,7 @@ const EditApplicationForm = () => {
                 <Form.Group controlId="formBasicSector" className="mb-4">
                   <Form.Label>Select Sector</Form.Label>
                   <Form.Select size="lg">
-                    <option>Large select</option>
+                    <option onChange={(e) => setSector(e.target.value)}>Large select</option>
                   </Form.Select>
                 </Form.Group>
 
