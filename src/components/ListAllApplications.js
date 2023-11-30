@@ -1,7 +1,28 @@
-import React from 'react';
-import { Table, Container, Card, Button } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'
+import { Table, Container, Card, Button, Spinner } from 'react-bootstrap';
+import { getAllApplications } from '../redux/actions/applicationActions';
 
 const ListAllApplications = () => {
+  const dispatch = useDispatch();
+  const applications = useSelector((state) => state.application.applications);
+  const isLoading = useSelector((state) => state.application.loading); // Get loading state from Redux store
+
+
+
+  useEffect(() => {
+    dispatch(getAllApplications());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    )
+  }
+
   return (
     <Container fluid>
       <Card>
@@ -18,35 +39,21 @@ const ListAllApplications = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>Technology</td>
-                <td>True</td>
-                <td>
-                  <Button variant="primary" size="sm" className="me-2">
-                    Edit
-                  </Button>
-                  <Button variant="danger" size="sm">
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jane Doe</td>
-                <td>Finance</td>
-                <td>True</td>
-                <td>
-                  <Button variant="primary" size="sm" className="me-2">
-                    Edit
-                  </Button>
-                  <Button variant="danger" size="sm">
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-              {/* Add more rows as needed */}
+              {applications?.map((app, index) => (
+                <tr key={app.id}>
+                  <td>{index + 1}</td>
+                  <td>{app.name}</td>
+                  <td>{app.sectors.name}</td>
+                  <td>{app.termsOfService ? 'True' : 'False'}</td>
+                  <td>
+                    <Button variant="primary" size="sm" className="me-2">
+                      <Link style={{color:"white"}} to={`/edit-application/${app._id}`}>
+                        Edit
+                      </Link>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Card.Body>

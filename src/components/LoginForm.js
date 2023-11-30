@@ -1,15 +1,36 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/actions/authActions";
+import { useHistory } from 'react-router-dom';
+import { ToastContainer,toast } from 'react-toastify';
 
 const LoginForm = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.auth.loading);
+
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Perform login logic here
-    console.log('Logging in with:', username, password);
-    // You can add further logic like sending login data to a server or handling authentication
+  const handleLogin = async (e) => {
+    e.preventDefault(); 
+
+    const loginData = {
+      username,
+      password,
+    };
+
+    if (!isLoading) {
+      await dispatch(login(loginData));
+      toast.success("User Logged in successfully!");
+
+      // Redirect only when not loading
+      if (!isLoading) {
+        history.push('/');
+      }
+    }
   };
 
   return (
@@ -46,6 +67,7 @@ const LoginForm = () => {
                   <Button variant="primary" type="submit">
                     Login
                   </Button>
+                  <ToastContainer />
                 </div>
               </Form>
             </Card.Body>

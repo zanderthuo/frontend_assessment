@@ -1,17 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom'
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOneApplicationById, updateApplication } from '../redux/actions/applicationActions';
+import { ToastContainer, toast } from 'react-toastify';
+import { getAllSectors } from '../redux/actions/sectorsActions';
 
 const EditApplicationForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [sector, setSector] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false); // State for terms agreement
+  const dispatch = useDispatch();
+  const history = useHistory()
+  const { applicationId } = useParams();
 
-  const handleRegister = (e) => {
+  const application = useSelector((state) => state.application.application);
+  const sectors = useSelector((state) => state.sectors);
+
+  console.log('application id', applicationId)
+
+
+  const [name, setName] = useState('');
+  const [sector, setSector] = useState('');
+  const [termsOfService, setTermsOfService] = useState(false); // State for terms agreement
+
+
+  useEffect(() => {
+    dispatch(getOneApplicationById({ applicationId }));
+  }, [dispatch, applicationId]);
+
+  useEffect(() => {
+    dispatch(getAllSectors());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (application) {
+      setName(application.name || '');
+      setSector(application.sectors && application.sectors.name ? application.sectors.name : '');
+      setTermsOfService(!!application.termsOfService); // Replace with the actual field name
+    }
+
+    console.log('Application', application.termsOfService)
+    console.log('Application sec', application.sectors)
+  }, [application]);
+
+  const handleUpdateApplication = (e) => {
     e.preventDefault();
-    // Perform Register logic here
-    console.log('Logging in with:', username, password, sector, agreeTerms);
-    // You can add further logic like sending Register data to a server or handling authentication
+
+    const updatedApplication = {
+      name,
+      sectors: { name: sector },
+      termsOfService
+    }
+
+    // Dispatch the updateApplication action with the updated application data
+    dispatch(updateApplication({ applicationId, updatedData: updatedApplication }));
+    console.log('update', updatedApplication)
+    toast.success('Updated successfully');
+    setTimeout(() => {
+      history.push('/all-application');
+    }, 2000);
+
   };
 
   return (
@@ -22,43 +68,63 @@ const EditApplicationForm = () => {
           <Card>
             <Card.Body>
               <Card.Title className="text-center">Application</Card.Title>
-              <Form onSubmit={handleRegister}>
-                <Form.Group controlId="formBasicUsername">
-                  <Form.Label>Username</Form.Label>
+              <Form onSubmit={handleUpdateApplication}>
+                <Form.Group controlId="formBasicname">
+                  <Form.Label>name</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formBasicPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     required
                   />
                 </Form.Group>
 
                 <Form.Group controlId="formBasicSector" className="mb-4">
                   <Form.Label>Select Sector</Form.Label>
-                  <Form.Select size="lg">
-                    <option onChange={(e) => setSector(e.target.value)}>Large select</option>
-                  </Form.Select>
+                  <select
+                    value={sector}
+                    onChange={(e) => setSector(e.target.value)}
+                    className="form-control"
+                  >
+                    <option value="">Select...</option>
+                    {sectors.sectors &&
+                      sectors.sectors.map((sectorGroup) =>
+                        sectorGroup.categories.map((category) => (
+                          <optgroup key={category._id} label={category.name}>
+                            {category.subcategories.map((subcategory) => (
+                              <React.Fragment key={subcategory._id}>
+                                <option value={subcategory.name}>{subcategory.name}</option>
+                                {subcategory.subsubcategories &&
+                                  subcategory.subsubcategories.length > 0 &&
+                                  subcategory.subsubcategories.map((subsubcategory) => (
+                                    <React.Fragment key={subsubcategory._id}>
+                                      <option value={subsubcategory.name}>
+                                        &nbsp;&nbsp;&nbsp;{subsubcategory.name}
+                                      </option>
+                                      {subsubcategory.subsubsubcategories &&
+                                        subsubcategory.subsubsubcategories.length > 0 &&
+                                        subsubcategory.subsubsubcategories.map((subsubsubcategory) => (
+                                          <option key={subsubsubcategory._id} value={subsubsubcategory.name}>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{subsubsubcategory.name}
+                                          </option>
+                                        ))}
+                                    </React.Fragment>
+                                  ))}
+                              </React.Fragment>
+                            ))}
+                          </optgroup>
+                        ))
+                      )}
+                  </select>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicCheckbox">
                   <Form.Check
                     type="checkbox"
                     label="I agree to the terms and conditions"
-                    checked={agreeTerms}
-                    onChange={(e) => setAgreeTerms(e.target.checked)}
-                    required
+                    checked={termsOfService}
+                    onChange={(e) => setTermsOfService(e.target.checked)}
                   />
                 </Form.Group>
 
@@ -66,6 +132,7 @@ const EditApplicationForm = () => {
                   <Button variant="primary" type="submit">
                     Save
                   </Button>
+                  <ToastContainer />
                 </div>
               </Form>
             </Card.Body>
