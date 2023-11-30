@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# Frontend Assessment
+- Our React application is a comprehensive system designed to manage applications through a user-friendly interface. The application
+  encompasses various functionalities, including a login page for user authentication, a main page housing an application form, a view page
+  displaying all applications in a data table, and an editing page for modifying existing applications. Redux Toolkit has been integrated into
+  the application for efficient state management across these different features.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
+- Login Page: Enables user authentication to access the application's functionalities securely.
+- Main Page: Contains an application form allowing users to input and submit application details.
+- View Applications Page: Displays all applications in a tabular format for easy reference and overview.
+- Edit Application Page: Provides functionality to edit existing applications with updated information.
+- Redux Toolkit Integration: Utilizes Redux Toolkit for state management across various components and functionalities, ensuring a consistent
+  and predictable state.
 
-## Available Scripts
+## How to Use the Application:
+- To access and utilize the application, follow these steps:
 
-In the project directory, you can run:
+1. Login Credentials:
+    Username: tupac
+    Password: admin
 
-### `npm start`
+2. Functionality Overview:
+  - Upon successful login using the provided credentials, you will land on the main page.
+  - Use the application form on the main page to submit new applications.
+  - Navigate to the view applications page to see a table displaying all submitted applications.
+  - Click on a specific application within the table to access the edit page and modify its details.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Redux Toolkit Integration:
+  - The application utilizes Redux Toolkit to manage and maintain state across different pages and components.
+  - Actions and reducers are structured using Redux Toolkit slices for efficient state management.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+### Folder Structure
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+/src
+│
+├── /pages
+│   ├── AllApplicatinsPage.js
+│   ├── EditPage.js
+|   ├── LoginPage.js
+│   └── MainPage.js
+│
+├── /components
+│   ├── Header.js
+│   ├── Footer.js
+│   ├── AddApplicationForm.js
+│   ├── EditApplicationForm.js
+│   ├── ListAllApplications.js
+│   └── LoginForm.js
+│
+│
+├── /route
+│   └── PrivateRoute.js
+│
+├── /redux
+│   ├── /actions
+│   │   ├── applicationActions.js
+│   │   ├── authActions.js
+│   │   └── sectorsActions.js
+│   │
+│   ├── /slices
+│   │   ├── applicationSlice.js
+│   │   ├── authSlice.js
+│   │   └── sectorsSlice.js
+│   │
+│   └── store.js
+│
+├── /api
+|   └── api.js
+│
+└──App.js
