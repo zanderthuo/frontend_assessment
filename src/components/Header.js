@@ -21,34 +21,34 @@ const Header = () => {
   };
 
   return (
-    <Navbar bg="dark" data-bs-theme="dark" className="bg-body-tertiary">
-      <Container>
+    <Navbar bg="dark" variant="dark" expand="lg" className="bg-body-tertiary">
+      <Container fluid>
         <Navbar.Brand href="/">Website</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          {isLoggedIn && ( // Only show the Applications Nav.Link if user is logged in
+          {isLoggedIn && (
             <Nav className="me-auto">
               <Nav.Link href="/all-application">Applications</Nav.Link>
             </Nav>
           )}
-        </Navbar.Collapse>
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>
-            {isLoggedIn ? ( // Conditionally render Sign Out button if user is logged in
-              <Button variant="outline-light" onClick={handleSignout}>
-                Sign Out
-              </Button>
-            ) : (
-              <Button variant="outline-light" href="/login"> {/* Show Sign In button if not logged in */}
-                Sign In
-              </Button>
-            )}
-          </Navbar.Text>
-          {isLoggedIn && ( // Show username if user is logged in
+          <Nav className="ms-auto">
             <Navbar.Text>
-              Signed in as: <a href="#login">{username}</a>
+              {isLoggedIn ? (
+                <Button variant="outline-light" onClick={handleSignout}>
+                  Sign Out
+                </Button>
+              ) : (
+                <Button variant="outline-light" href="/login">
+                  Sign In
+                </Button>
+              )}
             </Navbar.Text>
-          )}
+            {isLoggedIn && (
+              <Navbar.Text>
+                Signed in as: <a href="#login">{username}</a>
+              </Navbar.Text>
+            )}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
