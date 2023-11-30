@@ -32,6 +32,7 @@
 
 ### Folder Structure
 
+```
 /src
 │
 ├── /pages
@@ -69,3 +70,4 @@
 |   └── api.js
 │
 └──App.js
+```
