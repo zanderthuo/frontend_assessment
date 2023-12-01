@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom'
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { getOneApplicationById, updateApplication } from '../redux/actions/applicationActions';
 import { ToastContainer, toast } from 'react-toastify';
 import { getAllSectors } from '../redux/actions/sectorsActions';
@@ -9,6 +10,7 @@ import { getAllSectors } from '../redux/actions/sectorsActions';
 const EditApplicationForm = () => {
   const dispatch = useDispatch();
   const history = useHistory()
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onTouched" });
   const { applicationId } = useParams();
 
   const application = useSelector((state) => state.application.application);
@@ -42,8 +44,6 @@ const EditApplicationForm = () => {
   }, [application]);
 
   const handleUpdateApplication = (e) => {
-    e.preventDefault();
-
     const updatedApplication = {
       name,
       sectors: { name: sector },
@@ -68,22 +68,31 @@ const EditApplicationForm = () => {
           <Card>
             <Card.Body>
               <Card.Title className="text-center">Application</Card.Title>
-              <Form onSubmit={handleUpdateApplication}>
+              <Form onSubmit={handleSubmit(handleUpdateApplication)}>
                 <Form.Group controlId="formBasicname">
                   <Form.Label>name</Form.Label>
                   <Form.Control
+                    className="form-control"
                     type="text"
+                    {...register('name', { required: 'This Field is Required' })}
                     placeholder="Enter name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
                   />
+                  {errors.name && (
+                    <Form.Text className="text-danger">
+                      {errors.name.message}
+                    </Form.Text>
+                  )}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicSector" className="mb-4">
                   <Form.Label>Select Sector</Form.Label>
                   <select
                     value={sector}
+                    name="sector"
+                    {...register({ required: 'This Field is Required' })}
                     onChange={(e) => setSector(e.target.value)}
                     className="form-control"
                   >
@@ -117,6 +126,11 @@ const EditApplicationForm = () => {
                         ))
                       )}
                   </select>
+                  {errors.sectors && (
+                    <Form.Text className="text-danger">
+                      {errors.sectors.message}
+                    </Form.Text>
+                  )}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicCheckbox">

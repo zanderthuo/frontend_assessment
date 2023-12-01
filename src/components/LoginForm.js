@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from 'react-hook-form';
 import { login } from "../redux/actions/authActions";
 import { useHistory } from 'react-router-dom';
-import { ToastContainer,toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 const LoginForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onTouched" });
+
   const isLoading = useSelector((state) => state.auth.loading);
 
 
@@ -15,8 +18,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e) => {
-    e.preventDefault(); 
-
     const loginData = {
       username,
       password,
@@ -40,16 +41,21 @@ const LoginForm = () => {
           <Card>
             <Card.Body>
               <Card.Title className="text-center">Login</Card.Title>
-              <Form onSubmit={handleLogin}>
+              <Form onSubmit={handleSubmit(handleLogin)}>
                 <Form.Group controlId="formBasicUsername">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Enter username"
                     value={username}
+                    {...register('username', { required: 'This Field is Required' })}
                     onChange={(e) => setUsername(e.target.value)}
-                    required
                   />
+                  {errors.username && (
+                    <Form.Text className="text-danger">
+                      {errors.username.message}
+                    </Form.Text>
+                  )}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
@@ -58,9 +64,14 @@ const LoginForm = () => {
                     type="password"
                     placeholder="Password"
                     value={password}
+                    {...register('password', { required: 'This Field is Required' })}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
                   />
+                  {errors.password && (
+                    <Form.Text className="text-danger">
+                      {errors.password.message}
+                    </Form.Text>
+                  )}
                 </Form.Group>
 
                 <div className="d-flex justify-content-center mt-3">

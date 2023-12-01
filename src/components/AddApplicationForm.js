@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { getAllSectors } from '../redux/actions/sectorsActions';
 import { createApplication } from '../redux/actions/applicationActions';
 
 const AddApplicationForm = () => {
   const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm({mode: "onTouched",});
+
   const [name, setName] = useState('');
   const [sector, setSector] = useState('');
   const [termsOfService, setTermsOfService] = useState(false);
@@ -52,21 +55,25 @@ const AddApplicationForm = () => {
           <Card>
             <Card.Body>
               <Card.Title className="text-center">Application</Card.Title>
-              <Form onSubmit={handleRegister}>
+              <Form onSubmit={handleSubmit(handleRegister)}>
                 <Form.Group controlId="formBasicname">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
+                    className="form-control"
                     type="text"
+                    {...register('text',{ required: true })}
                     placeholder="Enter name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
                   />
+                  {errors.name && <p className="invalid" role="alert">This Field is Required</p>}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicSector" className="mb-4">
                   <Form.Label>Select Sector</Form.Label>
                   <select
+                    name="sector"
+                    {...register('sector',{ required: true })}
                     value={sector}
                     onChange={(e) => setSector(e.target.value)}
                     className="form-control"
@@ -100,6 +107,7 @@ const AddApplicationForm = () => {
                           </optgroup>
                         ))
                       )}
+                      {errors.sector && <p className="invalid" role="alert">This Field is Required</p>}
                   </select>
                 </Form.Group>
                 <Form.Group controlId="formBasicCheckbox">
