@@ -8,7 +8,7 @@ import { createApplication } from '../redux/actions/applicationActions';
 
 const AddApplicationForm = () => {
   const dispatch = useDispatch();
-  const { register, handleSubmit, errors } = useForm({mode: "onTouched",});
+  const { register, handleSubmit, formState:{errors} } = useForm({mode: "onTouched",});
 
   const [username, setUsername] = useState('');
   const [sector, setSector] = useState('');
