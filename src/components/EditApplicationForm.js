@@ -87,7 +87,7 @@ const EditApplicationForm = () => {
                   <select
                     value={sector}
                     name="sector"
-                    {...register({ required: 'This Field is Required' })}
+                    {...register({ required: true })}
                     onChange={(e) => setSector(e.target.value)}
                     className="form-control"
                   >
