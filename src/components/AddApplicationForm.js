@@ -10,7 +10,7 @@ const AddApplicationForm = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, errors } = useForm({mode: "onTouched",});
 
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [sector, setSector] = useState('');
   const [termsOfService, setTermsOfService] = useState(false);
 
@@ -23,13 +23,13 @@ const AddApplicationForm = () => {
 
   const handleRegister = async () => {
 
-    if (!name || !sector || !termsOfService) {
+    if (!username || !sector || !termsOfService) {
       toast.error('Please fill out all fields.');
       return
     }
 
     const applicationData = {
-      name,
+      username,
       sectors: sector,
       termsOfService
     }
@@ -37,7 +37,7 @@ const AddApplicationForm = () => {
     try {
       await dispatch(createApplication(applicationData));
       console.log('App data>>', applicationData)
-      setName('');
+      setUserame('');
       setSector('');
       setTermsOfService(false);
       toast.success('Application Created Successfully');
@@ -59,14 +59,14 @@ const AddApplicationForm = () => {
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     className="form-control"
-                    name="text"
+                    name="username"
                     type="text"
-                    {...register('text',{ required: true })}
+                    {...register('username',{ required: true })}
                     placeholder="Enter name"
-                    value={name}
+                    value={username}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  {errors.text && <p className="invalid" role="alert">This Field is Required</p>}
+                  {errors.username && <p className="invalid" role="alert">This Field is Required</p>}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicSector" className="mb-4">
