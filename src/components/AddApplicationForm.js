@@ -59,6 +59,7 @@ const AddApplicationForm = () => {
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     className="form-control"
+                    name="name"
                     type="text"
                     {...register('text',{ required: true })}
                     placeholder="Enter name"
