@@ -59,14 +59,14 @@ const AddApplicationForm = () => {
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     className="form-control"
-                    name="username"
+                    name="text"
                     type="text"
                     {...register('text',{ required: true })}
                     placeholder="Enter name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  {errors.username && <p className="invalid" role="alert">This Field is Required</p>}
+                  {errors.text && <p className="invalid" role="alert">This Field is Required</p>}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicSector" className="mb-4">
