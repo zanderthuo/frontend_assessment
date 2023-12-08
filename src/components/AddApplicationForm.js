@@ -21,8 +21,7 @@ const AddApplicationForm = () => {
     dispatch(getAllSectors());
   }, [dispatch]);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+  const handleRegister = async () => {
 
     if (!name || !sector || !termsOfService) {
       toast.error('Please fill out all fields.');
