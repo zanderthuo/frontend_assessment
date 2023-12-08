@@ -37,7 +37,7 @@ const AddApplicationForm = () => {
     try {
       await dispatch(createApplication(applicationData));
       console.log('App data>>', applicationData)
-      setUserame('');
+      setUsername('');
       setSector('');
       setTermsOfService(false);
       toast.success('Application Created Successfully');
@@ -64,7 +64,7 @@ const AddApplicationForm = () => {
                     {...register('username',{ required: true })}
                     placeholder="Enter name"
                     value={username}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                   {errors.username && <p className="invalid" role="alert">This Field is Required</p>}
                 </Form.Group>
