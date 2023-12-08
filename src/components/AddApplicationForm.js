@@ -57,11 +57,11 @@ const AddApplicationForm = () => {
               <Form onSubmit={handleSubmit(handleRegister)}>
                 <Form.Group controlId="formBasicname">
                   <Form.Label>Username</Form.Label>
-                  <input
+                  <Form.Control
                     className="form-control"
                     name="text"
                     type="text"
-                    ref={register({ required: true })}
+                    {...register('text',{ required: true })}
                     placeholder="Enter name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
