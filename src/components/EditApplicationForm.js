@@ -70,21 +70,16 @@ const EditApplicationForm = () => {
               <Card.Title className="text-center">Application</Card.Title>
               <Form onSubmit={handleSubmit(handleUpdateApplication)}>
                 <Form.Group controlId="formBasicname">
-                  <Form.Label>name</Form.Label>
+                  <Form.Label>Username</Form.Label>
                   <Form.Control
                     className="form-control"
                     type="text"
-                    {...register('name', { required: 'This Field is Required' })}
+                    {...register('text',{ required: true })}
                     placeholder="Enter name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    required
                   />
-                  {errors.name && (
-                    <Form.Text className="text-danger">
-                      {errors.name.message}
-                    </Form.Text>
-                  )}
+                  {errors.name && <p className="invalid" role="alert">This Field is Required</p>}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicSector" className="mb-4">
@@ -126,11 +121,7 @@ const EditApplicationForm = () => {
                         ))
                       )}
                   </select>
-                  {errors.sectors && (
-                    <Form.Text className="text-danger">
-                      {errors.sectors.message}
-                    </Form.Text>
-                  )}
+                   {errors.sector && <p className="invalid" role="alert">This Field is Required</p>}
                 </Form.Group>
 
                 <Form.Group controlId="formBasicCheckbox">
