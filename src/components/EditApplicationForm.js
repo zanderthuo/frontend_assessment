@@ -10,7 +10,7 @@ import { getAllSectors } from '../redux/actions/sectorsActions';
 const EditApplicationForm = () => {
   const dispatch = useDispatch();
   const history = useHistory()
-  const { register, handleSubmit, formState: { errors } } = useForm({ mode: "onTouched" });
+  const { register, handleSubmit, errors } = useForm({ mode: "onTouched" });
   const { applicationId } = useParams();
 
   const application = useSelector((state) => state.application.application);
